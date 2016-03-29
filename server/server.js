@@ -1,21 +1,23 @@
 'use strict';
 
 var express = require('express'),
+	Q = require('q'),
 	getData = require('../lib/get-data'),
 	bodyParser = require('body-parser'),
-	dbUrl = 'mongodb://192.168.1.107:27017/poidb',
-	server ;
+	dbPoiUrl = 'mongodb://127.0.0.1:27017/poidb',
+	dbOpenStreetUrl = 'mongodb://127.0.0.1:27017/openStreet',
+	overPassUrl = 'http://overpass-api.de/api/interpreter',
+	port = 9999,
+	server;
 
 server = express();
 
 //server.use(bodyParser.json());
 
-getData.connect(dbUrl)
-	.then(function () {
-		server.use('/api/', getData.bind());
-		server.listen(9999,function() {
-			console.log('connected ... ');
-		}, function (err) {
-			console.log('err ', err);
-		})
+getData.connect(dbPoiUrl, dbOpenStreetUrl)
+	.spread(function (dbPoi, dbOpenStreet) {
+		server.use('/api/', getData.bind(dbPoi, dbOpenStreet, overPassUrl));
+		server.listen(port, function () {
+			console.log('http server started ... listening at', port);
+		});
 	});

@@ -9,9 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async": "^1.5.2",
     "body-parser": "^1.14.2",
     "express": "^4.13.4",
     "lodash": "^4.0.0",
-    "mongodb": "^2.1.4"
+    "mongodb": "^2.1.4",
+    "q": "^1.4.1"
   }
 }
