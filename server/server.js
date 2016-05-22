@@ -12,7 +12,7 @@ var express = require('express'),
 
 server = express();
 
-//server.use(bodyParser.json());
+server.use(bodyParser.json());
 
 getData.connect(dbPoiUrl, dbOpenStreetUrl)
 	.spread(function (dbPoi, dbOpenStreet) {
